@@ -1,3 +1,7 @@
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/firestore'
+
 // firebase init - add your own config here
 const firebaseConfig = {
   apiKey: "AIzaSyDmNu_IK860ehc8mFRQMnAFGTmu1Z3MOmc",
