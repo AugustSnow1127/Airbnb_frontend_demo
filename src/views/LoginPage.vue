@@ -2,9 +2,9 @@
 form.loginBox(@submit.prevent)
   h6 登入
   .emailBox
-    input(type="text" placeholder="電子郵件" id="email" autocomplete="off")
+    input(v-model.trim="loginForm.email" type="text" placeholder="電子郵件" id="email" autocomplete="off")
   .passwordBox
-    input(type="password" placeholder="密碼" id="password")
+    input(v-model.trim="loginForm.password" type="password" placeholder="密碼" id="password")
   button.loginBtn(@click="login()") 登入
   .otherLoginBox
     .otherLoginBtn
@@ -27,12 +27,18 @@ form.loginBox(@submit.prevent)
 export default {
   data() {
     return {
-      
+      loginForm: {
+        email: '',
+        password: ''
+      }
     }
   },
   methods: {
   login() {
-    
+    this.$store.dispatch('login', {
+      email: this.loginForm.email,
+      password: this.loginForm.password
+    })
   }
 }
 }

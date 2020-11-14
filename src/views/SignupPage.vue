@@ -1,10 +1,16 @@
 <template lang="pug">
 form.signupBox(@submit.prevent)
   h6 註冊
+  .firstNameBox
+    input(v-model.trim="signupForm.firstname" type="text" placeholder="名字" id="firstname" autocomplete="off")
+  .lastNameBox
+    input(v-model.trim="signupForm.lastname" type="text" placeholder="姓氏" id="lastname" autocomplete="off")
+  .ps 請確保和身分證上的姓名相同
   .emailBox
-    input(type="text" placeholder="電子郵件" id="email" autocomplete="off")
+    input(v-model.trim="signupForm.email" type="text" placeholder="電子郵件" id="email" autocomplete="off")
   .passwordBox
-    input(type="password" placeholder="密碼" id="password")
+    input(v-model.trim="signupForm.password" type="password" placeholder="密碼" id="password")
+  .ps 我們會透過電子郵件傳送預訂確認給您
   button.signupBtn(@click="signup()") 註冊
   .otherSignupBox
     .otherSignupBtn
@@ -27,12 +33,22 @@ form.signupBox(@submit.prevent)
 export default {
   data() {
     return {
-      
+      signupForm: {
+        email: '',
+        password: '',
+        lastname: "",
+        firstname: "",
+      }
     }
   },
   methods: {
     signup() {
-      
+      this.$store.dispatch('signup', {
+        email: this.signupForm.email,
+        password: this.signupForm.password,
+        lastname: this.signupForm.lastname,
+        firstname: this.signupForm.firstname,
+      })
     }
   }
 }
@@ -53,7 +69,7 @@ html,body
 
 .signupBox
   width: 800px
-  height: 600px
+  height: 800px
   box-sizing: border-box
   border: 1px solid $gray
   padding: 50px 25px
@@ -62,7 +78,7 @@ html,body
     text-align: center
     font-weight: 600
 
-.emailBox
+.emailBox, .firstNameBox
   display: flex
   padding: 10px 15px
   margin-top: 50px
@@ -72,12 +88,18 @@ html,body
     color: $gray
   ::-internal-autofill-selected
 
+.ps
+  font-size: 18px
+  color: gray
+  font-weight: 600
+  margin: 0
+  padding: 0
 
-.passwordBox
+.passwordBox, .lastNameBox
   width: 100%
   display: flex
   padding: 10px 15px
-  margin-bottom: 50px
+  // margin-bottom: 50px
   border-radius: 0px 0px 10px 10px 
   border: 1px solid $gray
   ::placeholder
@@ -93,6 +115,7 @@ html,body
   font-weight: 600
   transition: 0.2s
   border: 1px solid $gray
+  margin-top: 50px
   &:hover
     opacity: 0.8
   &:focus
