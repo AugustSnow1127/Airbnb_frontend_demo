@@ -19,7 +19,7 @@ nav.navbar.navbar-expand-lg.bg-light
         li.nav-item
           a.nav-link(href='#') 成為房東
         li.nav-item
-          a.nav-link.loginBtn(href='#') 登入
+          router-link.nav-link.loginBtn(to="/login" tag="a") 登入
 </template>
 
 <script>

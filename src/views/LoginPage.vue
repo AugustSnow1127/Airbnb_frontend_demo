@@ -21,6 +21,9 @@ form.loginBox(@submit.prevent)
   .signinSuggestion
     span 還沒有帳號？
     router-link.link(to="/signup" tag="span") 註冊
+    br
+    router-link.link(to="/resetpassword" tag="span") 忘記密碼？
+
 </template>
 
 <script>
