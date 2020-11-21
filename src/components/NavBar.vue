@@ -1,30 +1,49 @@
 <template lang="pug">
 nav.navbar.navbar-expand-lg.bg-light
-    a.navbar-brand(href='#') 
-      img#brandLogo(src="https://fxdailyreport.com/wp-content/uploads/2018/10/Atlassian-Corporation-1200x1200.png")
-    button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation')
-      span.navbar-toggler-icon
-    #navbarNav.collapse.navbar-collapse
-      ul.navbar-nav
-        li.nav-item
-          a.nav-link(href='#')
-            | 住宿 
-            span.sr-only (current)
-        li.nav-item
-          a.nav-link(href='#') 機票
-        li.nav-item
-          a.nav-link(href='#') 租車
-        li.nav-item
-          a.nav-link(href='#') 熱門景點
-        li.nav-item
-          a.nav-link(href='#') 成為房東
-        li.nav-item
-          router-link.nav-link.loginBtn(to="/login" tag="a") 登入
+  a.navbar-brand(href='#') 
+    img#brandLogo(src="https://fxdailyreport.com/wp-content/uploads/2018/10/Atlassian-Corporation-1200x1200.png")
+  button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation')
+    span.navbar-toggler-icon
+  #navbarNav.collapse.navbar-collapse
+    ul.navbar-nav
+      li.nav-item
+        a.nav-link(href='#')
+          | 住宿 
+          span.sr-only (current)
+      li.nav-item
+        a.nav-link(href='#') 機票
+      li.nav-item
+        a.nav-link(href='#') 租車
+      li.nav-item
+        a.nav-link(href='#') 熱門景點
+      li.nav-item
+        a.nav-link(href='#') 成為房東
+      li.nav-item(v-if="!showNav")
+        router-link.nav-link.navBtn(to="/login" tag="a") 登入
+      li.nav-item(v-else)
+        .user 您好 {{ this.userProfile.lastname }}{{ this.userProfile.firstname }}
+        a.nav-link.navBtn(@click="logout()") 登出
+        
 </template>
 
 <script>
-export default {
+import { mapState } from 'vuex'
 
+export default {
+  computed: {
+    ...mapState({
+      userProfile: state => state.mLogin.userProfile
+    }),
+    showNav() {
+      return Object.keys(this.userProfile).length > 0
+    }
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('mLogin/logout')
+      alert('您已成功登出');
+    }
+  }
 }
 </script>
 
@@ -35,18 +54,26 @@ li
   padding-left: 0.25rem
   font-weight: 600
   font-size: 22px
-  a
-    &.loginBtn
-      border-radius: 50px
-      position: absolute
-      right: 30px
-      margin: 5px
-      padding: 10px 30px
-      border: 1px solid black
-      transition: 0.2s
-      &:hover
-        color: white
-        background-color: $Blue
+  .navBtn
+    border-radius: 50px
+    position: absolute
+    right: 30px
+    margin: 5px
+    padding: 10px 30px
+    border: 1px solid black
+    transition: 0.2s
+    width: 70px
+    color: black
+    background-color: white
+    &:hover
+      color: white
+      background-color: $Blue
+  .user
+    position: absolute
+    right: 90px
+    margin: 5px
+    padding: 10px 30px
+    font-weight: normal
   
 .nav-link
   color: black

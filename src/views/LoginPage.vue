@@ -1,4 +1,4 @@
-<template lang="pug">
+<template lang="pug" scoped>
 form.loginBox(@submit.prevent)
   h6 登入
   .emailBox
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
   login() {
-    this.$store.dispatch('login', {
+    this.$store.dispatch('mLogin/login', {
       email: this.loginForm.email,
       password: this.loginForm.password
     })
@@ -54,13 +54,15 @@ $gray: #bbb
   // border: 1px solid #000
 
 html,body
-  height: 100%
+  // height: 100%
   width: 100%
   display: flex
   justify-content: center
   align-items: center
+  
 
 .loginBox
+  margin: 18% 0
   width: 800px
   height: 600px
   box-sizing: border-box
@@ -86,7 +88,7 @@ html,body
   width: 100%
   display: flex
   padding: 10px 15px
-  margin-bottom: 50px
+  // margin-bottom: 50px
   border-radius: 0px 0px 10px 10px 
   border: 1px solid $gray
   ::placeholder
@@ -94,7 +96,7 @@ html,body
 
 .loginBtn
   width: 100%
-  margin: 20px 0px
+  margin: 50px 0px 20px 0px
   padding: 10px
   border-radius: 10px
   background-color: #75A8F9

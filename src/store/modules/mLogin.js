@@ -2,6 +2,7 @@ import * as fb from '@/firebase'
 import router from '@/router/index'
 
 export default {
+  namespaced: true,
   state: {
     userProfile: {}
   },
@@ -67,6 +68,13 @@ export default {
         }
         console.log(err);
       })
+    },
+    async logout({ commit }) {
+      await fb.auth.signOut()
+    
+      // clear userProfile and redirect to /login
+      commit('setUserProfile', {})
+      router.push('/')
     },
     async fetchUserProfile({ commit }, user) {
       // fetch user profile

@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     signup() {
-      this.$store.dispatch('signup', {
+      this.$store.dispatch('mLogin/signup', {
         email: this.signupForm.email,
         password: this.signupForm.password,
         lastname: this.signupForm.lastname,
@@ -61,7 +61,7 @@ $gray: #bbb
   // border: 1px solid #000
 
 html,body
-  height: 100%
+  // height: 100%
   width: 100%
   display: flex
   justify-content: center
@@ -99,7 +99,6 @@ html,body
   width: 100%
   display: flex
   padding: 10px 15px
-  // margin-bottom: 50px
   border-radius: 0px 0px 10px 10px 
   border: 1px solid $gray
   ::placeholder

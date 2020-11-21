@@ -2,7 +2,7 @@
 form.resetPasswordBox(@submit.prevent)
   h6 忘記密碼？
   .description 請輸入與您的帳號關聯的電子信箱地址，我們會透過電子郵件向您寄送重設密碼的連結。
-  .emailBox
+  .resetEmailBox
     input(v-model.trim="email" type="email" placeholder="電子郵件" id="email" autocomplete="off")
   p.error(v-if="errorMsg !== ''") {{ errorMsg }}
   button.resetPasswordBtn(@click="resetPassword()") 傳送重設連結
@@ -32,8 +32,8 @@ export default {
           this.errorMsg = "您輸入的信箱格式錯誤"
         }else if (errorCode === 'auth/user-not-found') {
           this.errorMsg = "您輸入的使用者不存在"
-        }else { //
-          alert(errorMessage);
+        }else { 
+          alert(err);
         }
         console.log(err);
       })
@@ -46,7 +46,7 @@ export default {
 $gray: #bbb
 
 html,body
-  height: 100%
+  // height: 100%
   width: 100%
   display: flex
   justify-content: center
@@ -68,7 +68,7 @@ html,body
   font-size: 22px
   margin: 50px 0px 20px 0px
 
-.emailBox
+.resetEmailBox
   display: flex
   padding: 10px 15px
   margin-bottom: 50px
