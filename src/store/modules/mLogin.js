@@ -79,13 +79,14 @@ export default {
     async fetchUserProfile({ commit }, user) {
       // fetch user profile
       const userProfile = await fb.usersCollection.doc(user.uid).get()
-      console.log(userProfile.data())
   
       // set user profile in state
       commit('setUserProfile', userProfile.data())
       
       // change route to dashboard
-      router.push('/')
+      if (router.currentRoute.path === '/login') {
+        router.push('/')
+      }
     },
   }
 }
