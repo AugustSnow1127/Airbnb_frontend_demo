@@ -7,8 +7,7 @@ nav.navbar.navbar-expand-lg.bg-light
   #navbarNav.collapse.navbar-collapse
     ul.navbar-nav
       li.nav-item
-        a.nav-link(href='#')
-          | 住宿 
+        router-link.nav-link(to="/" tag="a") 住宿 
           span.sr-only (current)
       li.nav-item
         a.nav-link(href='#') 機票

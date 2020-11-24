@@ -17,6 +17,7 @@
     "core-js": "^3.6.5",
     "firebase": "^8.0.1",
     "jquery": "^3.5.1",
+    "jquery-clickout": "0.0.3",
     "popper.js": "^1.16.1",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

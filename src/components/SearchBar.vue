@@ -1,39 +1,39 @@
 <template lang="pug">
 .searchBox
-  label.posLabel
+  label.locLabel
     .searchSub 位置
-      input.locationInput(type="text" placeholder="你要去哪裡?")
+      .inputBox.locationInput 你要去哪裡?
     .locationSuggestionBox
       ul
-        li.suggestion
+        li.suggestion.taipeiLocationSuggestion
           font-awesome-icon.mapIcon(icon="map-marker-alt")
-          span 台北市,台灣
-        li.suggestion
+          label.locationSuggestionLabel 台北市
+        li.suggestion.kaohsiungLocationSuggestion
           font-awesome-icon.mapIcon(icon="map-marker-alt")
-          span 高雄市,台灣
-        li.suggestion
+          label.locationSuggestionLabel 高雄市
+        li.suggestion.taitungLocationSuggestion
           font-awesome-icon.mapIcon(icon="map-marker-alt")
-          span 台東市,台灣
+          label.locationSuggestionLabel 台東市
   label.checkInLabel
     .searchSub 入住
-      input.checkInInput(type="text" placeholder="選擇日期")
+      .inputBox.checkInInput 選擇日期
   label.checkOutLabel
     .searchSub 退房
-      input.checkOutInput(type="text" placeholder="選擇日期")
+      .inputBox.checkOutInput 選擇日期
   label.peopleLabel
     .searchSub 人數
-      input.peopleInput(type="text" placeholder="新增人數")
+      .inputBox.peopleInput 新增人數
     .peopleWritingBox 
       .writingBox.adultWriting
         .humanKind
           div 成人
           .yearOld 滿 13 歲
         .calculate
-          button.minus
+          button.adultMinus.calBtn.inactiveBtn
             span
               img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAAA/0lEQVR4nO3ZMUoDQRQG4PcGz+ENBFlIWsFD5C6ewMaDiHewsQwbsBFbEc+xk8bCwhCMgbch3wdTzT744Wem2IkAAAAAAAAAAAAAAAAAADhFWR1gn/V6fd1aWx0yO03T03K5fD12pmO6qA6wT2ZeRcTdgbPvEaGA/8jMt4h4+GXrMiJW39889t6/dszO2uyvoF02m81t7/05IqK1djMMw0t1pkO06gDnTgEnqM9hLRaLPo5jH8exD8NQnufH+hMnoJgCiimgmAKKKaCYAoopoJhfEcWcgGIKKKaAYgooNvsHmV2mafrIzPuIiMz8rM4DAAAAAAAAAAAAAAAAAHBetiItdLcYh9C1AAAAAElFTkSuQmCC")
-          span.adultNum 1
-          button.plus
+          span.adultNum 0
+          button.adultPlus.calBtn
             span
               img(src="https://img.icons8.com/android/24/000000/plus.png")
       .writingBox.childrenWriting 
@@ -41,11 +41,11 @@
           div 兒童
           .yearOld 2 - 12歲
         .calculate
-          button.minus
+          button.childrenMinus.calBtn.inactiveBtn
             span
               img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAAA/0lEQVR4nO3ZMUoDQRQG4PcGz+ENBFlIWsFD5C6ewMaDiHewsQwbsBFbEc+xk8bCwhCMgbch3wdTzT744Wem2IkAAAAAAAAAAAAAAAAAADhFWR1gn/V6fd1aWx0yO03T03K5fD12pmO6qA6wT2ZeRcTdgbPvEaGA/8jMt4h4+GXrMiJW39889t6/dszO2uyvoF02m81t7/05IqK1djMMw0t1pkO06gDnTgEnqM9hLRaLPo5jH8exD8NQnufH+hMnoJgCiimgmAKKKaCYAoopoJhfEcWcgGIKKKaAYgooNvsHmV2mafrIzPuIiMz8rM4DAAAAAAAAAAAAAAAAAHBetiItdLcYh9C1AAAAAElFTkSuQmCC")
-          span.childrenNum2 2
-          button.plus
+          span.childrenNum 0
+          button.childrenPlus.calBtn
             span
               img(src="https://img.icons8.com/android/24/000000/plus.png")
       .writingBox.babyWriting 
@@ -53,28 +53,186 @@
           div 嬰幼兒
           .yearOld 2歲以下
         .calculate
-          button.minus
+          button.babyMinus.calBtn.inactiveBtn
             span
               img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAAA/0lEQVR4nO3ZMUoDQRQG4PcGz+ENBFlIWsFD5C6ewMaDiHewsQwbsBFbEc+xk8bCwhCMgbch3wdTzT744Wem2IkAAAAAAAAAAAAAAAAAADhFWR1gn/V6fd1aWx0yO03T03K5fD12pmO6qA6wT2ZeRcTdgbPvEaGA/8jMt4h4+GXrMiJW39889t6/dszO2uyvoF02m81t7/05IqK1djMMw0t1pkO06gDnTgEnqM9hLRaLPo5jH8exD8NQnufH+hMnoJgCiimgmAKKKaCYAoopoJhfEcWcgGIKKKaAYgooNvsHmV2mafrIzPuIiMz8rM4DAAAAAAAAAAAAAAAAAHBetiItdLcYh9C1AAAAAElFTkSuQmCC")
-          span.babyNum3 0
-          button.plus
+          span.babyNum 0
+          button.babyPlus.calBtn
             span
               img(src="https://img.icons8.com/android/24/000000/plus.png")
               
   .searchButton
-    button
+    button.searchBtn
       font-awesome-icon.searchIcon(icon="search")
 </template>
 
 <script>
 import $ from 'jquery'
 
+let adultNumber = 0
+let childrenNumber = 0
+let babyNumber = 0
+
+let selectedLocation = ""
+
 export default {
   mounted() {
-    $(".locationInput").focus(function(){$(".locationSuggestionBox").css("display", "block")})
-      .focusout(function(){$(".locationSuggestionBox").css("display", "none")})
-    $(".peopleInput").focus(function(){$(".peopleWritingBox").css("display", "block")})
-      .focusout(function(){$(".peopleWritingBox").css("display", "none")})
+    //scroll menu slideToggle
+    $(".locationInput").click(function(){
+      $(".locationSuggestionBox").slideToggle("fast")
+      $(".peopleWritingBox").slideUp("fast")
+    })
+    $(".peopleInput").click(function(){
+      $(".peopleWritingBox").slideToggle("fast")
+      $(".locationSuggestionBox").slideUp("fast")
+    })
+
+    //location suggestion logic
+    $(".taipeiLocationSuggestion").click(function(){
+      selectedLocation = "台北市"
+      $(".locationInput").text(selectedLocation)
+      $(".locationSuggestionBox").slideUp("fast")
+    })
+    $(".kaohsiungLocationSuggestion").click(function(){
+      selectedLocation = "高雄市"
+      $(".locationInput").text(selectedLocation)
+      $(".locationSuggestionBox").slideUp("fast")
+    })
+    $(".taitungLocationSuggestion").click(function(){
+      selectedLocation = "台東市"
+      $(".locationInput").text(selectedLocation)
+      $(".locationSuggestionBox").slideUp("fast")
+    })
+
+    //adult calulate logic
+    $(".adultPlus").click(function(){
+      adultNumber++
+      $(".adultNum").text(adultNumber)
+      $(".adultMinus").removeClass("inactiveBtn")
+      if(adultNumber + childrenNumber != 0){
+        $(".peopleInput").css("opacity","1")
+        $(".peopleInput").text(adultNumber + childrenNumber + "位")
+        if(babyNumber != 0){
+          $(".peopleInput").append(", " + babyNumber + "名嬰幼兒")
+        }
+      }else{
+        $(".peopleInput").text("新增人數")
+        $(".peopleInput").css("opacity","0.8")
+      }
+    })
+    $(".adultMinus").click(function(){
+      if(adultNumber != 0){
+        adultNumber--
+        if(adultNumber == 0 && childrenNumber + babyNumber != 0){
+          adultNumber++
+        }else if(adultNumber + childrenNumber != 0){
+          $(".peopleInput").css("opacity","1")
+          $(".peopleInput").text(adultNumber + childrenNumber + "位")
+          if(babyNumber != 0){
+            $(".peopleInput").append(", " + babyNumber + "名嬰幼兒")
+          }
+        }else{
+          $(".peopleInput").text("新增人數")
+          $(".peopleInput").css("opacity","0.8")
+        }
+        if(adultNumber == 0){
+          $(".adultMinus").addClass("inactiveBtn")
+        }
+        $(".adultNum").text(adultNumber)
+      }
+    })
+    //children calulate logic
+    $(".childrenPlus").click(function(){
+      //a least one adult
+      if(adultNumber == 0){
+        childrenNumber++
+        $(".childrenNum").text(childrenNumber)
+        $(".childrenMinus").removeClass("inactiveBtn")
+        adultNumber++
+        $(".adultNum").text(adultNumber)
+        $(".adultMinus").removeClass("inactiveBtn")
+      }else{
+        childrenNumber++
+        $(".childrenNum").text(childrenNumber)
+        $(".childrenMinus").removeClass("inactiveBtn")
+      }
+
+      if(adultNumber + childrenNumber != 0){
+        $(".peopleInput").css("opacity","1")
+        $(".peopleInput").text(adultNumber + childrenNumber + "位")
+        if(babyNumber != 0){
+          $(".peopleInput").append(", " + babyNumber + "名嬰幼兒")
+        }
+      }else{
+        $(".peopleInput").text("新增人數")
+        $(".peopleInput").css("opacity","0.8")
+      }
+    })
+    $(".childrenMinus").click(function(){
+      if(childrenNumber != 0){
+        childrenNumber--
+        $(".childrenNum").text(childrenNumber)
+        if(adultNumber + childrenNumber != 0){
+          $(".peopleInput").css("opacity","1")
+          $(".peopleInput").text(adultNumber + childrenNumber + "位")
+          if(babyNumber != 0){
+            $(".peopleInput").append(", " + babyNumber + "名嬰幼兒")
+          }
+        }else{
+          $(".peopleInput").text("新增人數")
+          $(".peopleInput").css("opacity","0.8")
+        }
+        if(childrenNumber == 0){
+          $(".childrenMinus").addClass("inactiveBtn")
+        }
+      }
+    })
+    //baby calulate logic
+    $(".babyPlus").click(function(){
+      //a least one adult
+      if(adultNumber == 0){
+        babyNumber++
+        $(".babyNum").text(babyNumber)
+        $(".babyMinus").removeClass("inactiveBtn")
+        adultNumber++
+        $(".adultNum").text(adultNumber)
+        $(".adultMinus").removeClass("inactiveBtn")
+      }else{
+        babyNumber++
+        $(".babyNum").text(babyNumber)
+        $(".babyMinus").removeClass("inactiveBtn")
+      }
+
+      if(adultNumber + childrenNumber != 0){
+        $(".peopleInput").css("opacity","1")
+        $(".peopleInput").text(adultNumber + childrenNumber + "位")
+        if(babyNumber != 0){
+          $(".peopleInput").append(", " + babyNumber + "名嬰幼兒")
+        }
+      }else{
+        $(".peopleInput").text("新增人數")
+        $(".peopleInput").css("opacity","0.8")
+      }
+    })
+    $(".babyMinus").click(function(){
+      if(babyNumber != 0){
+        babyNumber--
+        $(".babyNum").text(babyNumber)
+        if(adultNumber + babyNumber != 0){
+          $(".peopleInput").css("opacity","1")
+          $(".peopleInput").text(adultNumber + childrenNumber + "位")
+          if(babyNumber != 0){
+            $(".peopleInput").append(", " + babyNumber + "名嬰幼兒")
+          }
+        }else{
+          $(".peopleInput").text("新增人數")
+          $(".peopleInput").css("opacity","0.8")
+        }
+        if(babyNumber == 0){
+          $(".babyMinus").addClass("inactiveBtn")
+        }
+      }
+    })
   }
 }
 </script>
@@ -84,7 +242,6 @@ $Blue: #0051CB
 
 *
   font-family: 微軟正黑體, sans-serif
-
 
 .searchBox
   width: 1000px
@@ -103,7 +260,7 @@ $Blue: #0051CB
 label
   box-sizing: border-box
 
-.posLabel
+.locLabel
   width: 25%
 .checkInLabel
   width: 20%
@@ -126,17 +283,15 @@ label
     background-color: rgba(0,0,0,0.1)
 
 
-input
-  border: none
+.inputBox
   font-size: 18px
   padding: 0
-  margin: 0
+  margin-top: 2px
   background: none
   width: 100%
   text-overflow: ellipsis
-  &:focus
-    outline: none
-    border: none  
+  font-weight: normal
+  opacity: 0.8
 
 .searchButton
   position: absolute
@@ -146,7 +301,8 @@ input
   align-items: center
   transform: translate(-5px)
   border: none
-  button
+  outline: none
+  .searchBtn
     width: 65px
     height: 65px
     background-color: #DA0A64
@@ -184,7 +340,7 @@ input
       background-color: rgba(0,0,0,0.05)
   .mapIcon
     color: $Blue
-  span
+  .locationSuggestionLabel
     margin: 0px 20px
 
 .peopleWritingBox
@@ -205,8 +361,6 @@ input
     font-weight: 600
     font-size: 20px
     display: flex
-    // transform: translateY(-8px)
-
     .humanKind
       transform: translateY(-10px)
     .yearOld
@@ -230,14 +384,20 @@ input
       img
         width: 20px
         height: 20px
-    button
+    .calBtn
       width: 45px
       height: 45px
       margin: 0px 15px
       border-radius: 50px
       border: 1px solid rgb(200, 200, 200)
       background-color: white
-      &:hover
+      outline: none
+      &::hover
         border: 1px solid black
+    .inactiveBtn
+      opacity: 0.3
+      cursor: not-allowed
+      &:hover
+        border: 1px solid rgb(200, 200, 200)
 
 </style>
