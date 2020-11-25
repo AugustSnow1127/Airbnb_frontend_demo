@@ -16,10 +16,20 @@
           label.locationSuggestionLabel 台東市
   label.checkInLabel
     .searchSub 入住
-      .inputBox.checkInInput 選擇日期
+      .selectDateInput
+        input#from.inputBox.checkInInput(type="text" placeholder="選擇日期" autocomplete="off")
+        button.deleteInputBtn.deleteFromInputBtn
+          svg(viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' role='presentation' focusable='false' style='display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 4; overflow: visible;')
+            path(d='m6 6 20 20')
+            path(d='m26 6-20 20')
   label.checkOutLabel
     .searchSub 退房
-      .inputBox.checkOutInput 選擇日期
+      .selectDateInput
+        input#to.inputBox.checkInInput(type="text" placeholder="選擇日期" autocomplete="off")
+        button.deleteInputBtn.deleteToInputBtn
+          svg(viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' role='presentation' focusable='false' style='display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 4; overflow: visible;')
+            path(d='m6 6 20 20')
+            path(d='m26 6-20 20')
   label.peopleLabel
     .searchSub 人數
       .inputBox.peopleInput 新增人數
@@ -68,11 +78,12 @@
 
 <script>
 import $ from 'jquery'
+import 'jquery-ui-dist/jquery-ui'
+import 'jquery-ui/ui/i18n/datepicker-zh-TW.js';
 
 let adultNumber = 0
 let childrenNumber = 0
 let babyNumber = 0
-
 let selectedLocation = ""
 
 export default {
@@ -233,6 +244,53 @@ export default {
         }
       }
     })
+
+    $("#from")
+      .datepicker({
+        changeMonth: false,
+        numberOfMonths: 1,
+        minDate: "0d",
+      })
+      .change(function(){
+        $("#to").datepicker('destroy')
+        $("#to").datepicker({
+          changeMonth: false,
+          numberOfMonths: 1,
+          minDate: new Date($('#from').val())
+        })
+      })
+    $("#to")
+      .datepicker({
+        changeMonth: false,
+        numberOfMonths: 1,
+        minDate: "0d",
+      })
+      .change(function(){
+        $("#from").datepicker('destroy')
+        $("#from").datepicker({
+          changeMonth: false,
+          numberOfMonths: 1,
+          minDate: "0d",
+          maxDate: new Date($('#to').val())
+        })
+      })
+      
+    $(".searchSub").click(function(){
+      if($("#from").val()){
+        $(".deleteFromInputBtn").css("display","block")
+      }
+      if($("#to").val()){
+        $(".deleteToInputBtn").css("display","block")
+      }
+    })
+    $(".deleteFromInputBtn").click(function(){
+      $("#from").val("")
+      $(".deleteFromInputBtn").css("display","none")
+    })
+    $(".deleteToInputBtn").click(function(){
+      $("#to").val("")
+      $(".deleteToInputBtn").css("display","none")
+    })
   }
 }
 </script>
@@ -241,7 +299,7 @@ export default {
 $Blue: #0051CB
 
 *
-  font-family: 微軟正黑體, sans-serif
+  font-family: 微軟正黑體, sans-serif 
 
 .searchBox
   width: 1000px
@@ -262,12 +320,23 @@ label
 
 .locLabel
   width: 25%
-.checkInLabel
-  width: 20%
-.checkOutLabel
-  width: 20%
+.checkInLabel, .checkOutLabel
+  width: 25%
 .peopleLabel
   width: 40%
+
+.selectDateInput
+  display: flex
+.deleteInputBtn
+  background-color: rgba(0,0,0,0.1)
+  border-radius: 50px
+  border: none
+  &:focus
+    outline: none
+  &:hover
+    background-color: white
+.deleteFromInputBtn, .deleteToInputBtn
+  display: none
 
 .searchSub
   // width: 23%
@@ -282,7 +351,6 @@ label
   &:hover
     background-color: rgba(0,0,0,0.1)
 
-
 .inputBox
   font-size: 18px
   padding: 0
@@ -292,7 +360,58 @@ label
   text-overflow: ellipsis
   font-weight: normal
   opacity: 0.8
+  outline: none
+  border: none
+  height: 25px
+  a
+    text-decoration: none
+    &:active
+    color: black
 
+.ui-datepicker
+  background-color: white
+  opacity: 0.95
+  transform: translate(-50px,20px)
+  width: 500px
+  height: 400px
+  padding: 25px
+  border-radius: 30px
+  text-align: center
+  td
+    &:hover
+      color: white
+      background-color: black
+      .ui-state-default
+        color: white
+  .ui-state-default
+    color: black
+    padding: 10px
+    &:hover
+      text-decoration: none
+  .ui-state-disabled
+    opacity: 0.3
+    &:hover
+      background-color: white
+      .ui-state-default
+        color: black
+        cursor: default
+  .ui-datepicker-prev, .ui-datepicker-next
+    position: absolute
+    color: black
+    border-radius: 50px
+    &:hover
+      text-decoration: none
+      cursor: pointer
+  .ui-datepicker-prev
+    left: 40px
+  .ui-datepicker-next
+    right: 40px
+  table
+    height: 90%
+    margin: 10px 0px
+  th
+    width: 200px
+  
 .searchButton
   position: absolute
   right: 10px
