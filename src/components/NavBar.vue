@@ -1,6 +1,6 @@
 <template lang="pug">
 nav.navbar.navbar-expand-lg.bg-light
-  a.navbar-brand(href='#') 
+  router-link.navbar-brand.nav-link(to="/" tag="a")
     img#brandLogo(src="https://fxdailyreport.com/wp-content/uploads/2018/10/Atlassian-Corporation-1200x1200.png")
   button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation')
     span.navbar-toggler-icon
@@ -16,7 +16,7 @@ nav.navbar.navbar-expand-lg.bg-light
       li.nav-item
         a.nav-link(href='#') 熱門景點
       li.nav-item
-        a.nav-link(href='#') 成為房東
+        router-link.nav-link(to="/becomehost" tag="a") 成為房東
       li.nav-item(v-if="!showNav")
         router-link.nav-link.navBtn(to="/login" tag="a") 登入
       li.nav-item(v-else)

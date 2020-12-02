@@ -1,8 +1,13 @@
 <template lang="pug">
 .searchBox
-  label.locLabel
+  label#locLabel
     .searchSub 位置
-      .inputBox.locationInput 你要去哪裡?
+      .selectInput
+        input#locationInput.inputBox(readonly="readonly" type="text" placeholder="你要去哪裡?" autocomplete="off")
+        button#deleteLocationInputBtn.deleteInputBtn
+          svg(viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' role='presentation' focusable='false' style='display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 4; overflow: visible;')
+            path(d='m6 6 20 20')
+            path(d='m26 6-20 20')
     .locationSuggestionBox
       ul
         li.suggestion.taipeiLocationSuggestion
@@ -14,25 +19,26 @@
         li.suggestion.taitungLocationSuggestion
           font-awesome-icon.mapIcon(icon="map-marker-alt")
           label.locationSuggestionLabel 台東市
-  label.checkInLabel
+  label#checkInLabel
     .searchSub 入住
-      .selectDateInput
-        input#from.inputBox.checkInInput(type="text" placeholder="選擇日期" autocomplete="off")
-        button.deleteInputBtn.deleteFromInputBtn
+      .selectInput
+        input#from.inputBox(readonly="readonly" type="text" placeholder="選擇日期" autocomplete="off")
+        button#deleteFromInputBtn.deleteInputBtn
           svg(viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' role='presentation' focusable='false' style='display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 4; overflow: visible;')
             path(d='m6 6 20 20')
             path(d='m26 6-20 20')
-  label.checkOutLabel
+  label#checkOutLabel
     .searchSub 退房
-      .selectDateInput
-        input#to.inputBox.checkInInput(type="text" placeholder="選擇日期" autocomplete="off")
-        button.deleteInputBtn.deleteToInputBtn
+      .selectInput
+        input#to.inputBox(readonly="readonly" type="text" placeholder="選擇日期" autocomplete="off")
+        button#deleteToInputBtn.deleteInputBtn
           svg(viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg' aria-hidden='true' role='presentation' focusable='false' style='display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 4; overflow: visible;')
             path(d='m6 6 20 20')
             path(d='m26 6-20 20')
-  label.peopleLabel
+  label#peopleLabel
     .searchSub 人數
-      .inputBox.peopleInput 新增人數
+      .selectInput
+        input#peopleInput.inputBox(readonly="readonly" type="text" placeholder="新增人數" autocomplete="off")
     .peopleWritingBox 
       .writingBox.adultWriting
         .humanKind
@@ -72,7 +78,7 @@
               img(src="https://img.icons8.com/android/24/000000/plus.png")
               
   .searchButton
-    button.searchBtn
+    button.searchBtn(@click="search")
       font-awesome-icon.searchIcon(icon="search")
 </template>
 
@@ -85,50 +91,85 @@ let adultNumber = 0
 let childrenNumber = 0
 let babyNumber = 0
 let selectedLocation = ""
+let fromDate = ""
+let toDate = ""
 
 export default {
+  data() {
+    return {
+      searchData: {
+        adultNumber: 0,
+        childrenNumber: 0,
+        babyNumber: 0,
+        selectedLocation: "",
+        fromDate: "",
+        toDate: "",
+      }
+    }
+  },
+  methods: {
+    search(){
+      this.searchData.adultNumber = adultNumber
+      this.searchData.childrenNumber = childrenNumber
+      this.searchData.babyNumber = babyNumber
+      this.searchData.selectedLocation = selectedLocation
+      this.searchData.fromDate = fromDate
+      this.searchData.toDate = toDate
+      if(selectedLocation == ""){
+        $(".locationSuggestionBox").slideToggle("fast")
+        $(".peopleWritingBox").slideUp("fast")
+      }
+    }
+  },
   mounted() {
     //scroll menu slideToggle
-    $(".locationInput").click(function(){
+    $("#locationInput").click(function(){
       $(".locationSuggestionBox").slideToggle("fast")
       $(".peopleWritingBox").slideUp("fast")
     })
-    $(".peopleInput").click(function(){
+    $("#peopleInput").click(function(){
       $(".peopleWritingBox").slideToggle("fast")
+      $(".locationSuggestionBox").slideUp("fast")
+    })
+    $("#from").click(function(){
+      $(".locationSuggestionBox").slideUp("fast")
+    })
+    $("#to").click(function(){
       $(".locationSuggestionBox").slideUp("fast")
     })
 
     //location suggestion logic
     $(".taipeiLocationSuggestion").click(function(){
       selectedLocation = "台北市"
-      $(".locationInput").text(selectedLocation)
-      $(".locationSuggestionBox").slideUp("fast")
+      $("#locationInput").val(selectedLocation)
+      console.log("位置：" + selectedLocation)
     })
     $(".kaohsiungLocationSuggestion").click(function(){
       selectedLocation = "高雄市"
-      $(".locationInput").text(selectedLocation)
-      $(".locationSuggestionBox").slideUp("fast")
+      $("#locationInput").val(selectedLocation)
+      console.log("位置：" + selectedLocation)
     })
     $(".taitungLocationSuggestion").click(function(){
       selectedLocation = "台東市"
-      $(".locationInput").text(selectedLocation)
-      $(".locationSuggestionBox").slideUp("fast")
+      $("#locationInput").val(selectedLocation)
+      console.log("位置：" + selectedLocation)
     })
 
     //adult calulate logic
     $(".adultPlus").click(function(){
       adultNumber++
+      console.log("大人數量：" + adultNumber)
       $(".adultNum").text(adultNumber)
       $(".adultMinus").removeClass("inactiveBtn")
       if(adultNumber + childrenNumber != 0){
-        $(".peopleInput").css("opacity","1")
-        $(".peopleInput").text(adultNumber + childrenNumber + "位")
+        $("#peopleInput").css("opacity","1")
+        $("#peopleInput").val(adultNumber + childrenNumber + "位")
         if(babyNumber != 0){
-          $(".peopleInput").append(", " + babyNumber + "名嬰幼兒")
+          $("#peopleInput").val(adultNumber + childrenNumber + "位" + ", " + babyNumber + "名嬰幼兒")
         }
       }else{
-        $(".peopleInput").text("新增人數")
-        $(".peopleInput").css("opacity","0.8")
+        $("#peopleInput").val("")
+        $("#peopleInput").css("opacity","0.8")
       }
     })
     $(".adultMinus").click(function(){
@@ -136,15 +177,16 @@ export default {
         adultNumber--
         if(adultNumber == 0 && childrenNumber + babyNumber != 0){
           adultNumber++
+          console.log("大人數量：" + adultNumber)
         }else if(adultNumber + childrenNumber != 0){
-          $(".peopleInput").css("opacity","1")
-          $(".peopleInput").text(adultNumber + childrenNumber + "位")
+          $("#peopleInput").css("opacity","1")
+          $("#peopleInput").val(adultNumber + childrenNumber + "位")
           if(babyNumber != 0){
-            $(".peopleInput").append(", " + babyNumber + "名嬰幼兒")
+            $("#peopleInput").val(adultNumber + childrenNumber + "位" + ", " + babyNumber + "名嬰幼兒")
           }
         }else{
-          $(".peopleInput").text("新增人數")
-          $(".peopleInput").css("opacity","0.8")
+          $("#peopleInput").val("")
+          $("#peopleInput").css("opacity","0.8")
         }
         if(adultNumber == 0){
           $(".adultMinus").addClass("inactiveBtn")
@@ -157,41 +199,45 @@ export default {
       //a least one adult
       if(adultNumber == 0){
         childrenNumber++
+        console.log("兒童數量：" + childrenNumber)
         $(".childrenNum").text(childrenNumber)
         $(".childrenMinus").removeClass("inactiveBtn")
         adultNumber++
+        console.log("大人數量：" + adultNumber)
         $(".adultNum").text(adultNumber)
         $(".adultMinus").removeClass("inactiveBtn")
       }else{
         childrenNumber++
+        console.log("兒童數量：" + childrenNumber)
         $(".childrenNum").text(childrenNumber)
         $(".childrenMinus").removeClass("inactiveBtn")
       }
 
       if(adultNumber + childrenNumber != 0){
-        $(".peopleInput").css("opacity","1")
-        $(".peopleInput").text(adultNumber + childrenNumber + "位")
+        $("#peopleInput").css("opacity","1")
+        $("#peopleInput").val(adultNumber + childrenNumber + "位")
         if(babyNumber != 0){
-          $(".peopleInput").append(", " + babyNumber + "名嬰幼兒")
+          $("#peopleInput").val(adultNumber + childrenNumber + "位" + ", " + babyNumber + "名嬰幼兒")
         }
       }else{
-        $(".peopleInput").text("新增人數")
-        $(".peopleInput").css("opacity","0.8")
+        $("#peopleInput").val("")
+        $("#peopleInput").css("opacity","0.8")
       }
     })
     $(".childrenMinus").click(function(){
       if(childrenNumber != 0){
         childrenNumber--
+        console.log("兒童數量：" + childrenNumber)
         $(".childrenNum").text(childrenNumber)
         if(adultNumber + childrenNumber != 0){
-          $(".peopleInput").css("opacity","1")
-          $(".peopleInput").text(adultNumber + childrenNumber + "位")
+          $("#peopleInput").css("opacity","1")
+          $("#peopleInput").val(adultNumber + childrenNumber + "位")
           if(babyNumber != 0){
-            $(".peopleInput").append(", " + babyNumber + "名嬰幼兒")
+            $("#peopleInput").val(adultNumber + childrenNumber + "位" + ", " + babyNumber + "名嬰幼兒")
           }
         }else{
-          $(".peopleInput").text("新增人數")
-          $(".peopleInput").css("opacity","0.8")
+          $("#peopleInput").val("")
+          $("#peopleInput").css("opacity","0.8")
         }
         if(childrenNumber == 0){
           $(".childrenMinus").addClass("inactiveBtn")
@@ -203,41 +249,45 @@ export default {
       //a least one adult
       if(adultNumber == 0){
         babyNumber++
+        console.log("嬰幼兒數量：" + babyNumber)
         $(".babyNum").text(babyNumber)
         $(".babyMinus").removeClass("inactiveBtn")
         adultNumber++
+        console.log("大人數量：" + adultNumber)
         $(".adultNum").text(adultNumber)
         $(".adultMinus").removeClass("inactiveBtn")
       }else{
         babyNumber++
+        console.log("嬰幼兒數量：" + babyNumber)
         $(".babyNum").text(babyNumber)
         $(".babyMinus").removeClass("inactiveBtn")
       }
 
       if(adultNumber + childrenNumber != 0){
-        $(".peopleInput").css("opacity","1")
-        $(".peopleInput").text(adultNumber + childrenNumber + "位")
+        $("#peopleInput").css("opacity","1")
+        $("#peopleInput").val(adultNumber + childrenNumber + "位")
         if(babyNumber != 0){
-          $(".peopleInput").append(", " + babyNumber + "名嬰幼兒")
+          $("#peopleInput").val(adultNumber + childrenNumber + "位" + ", " + babyNumber + "名嬰幼兒")
         }
       }else{
-        $(".peopleInput").text("新增人數")
-        $(".peopleInput").css("opacity","0.8")
+        $("#peopleInput").val("")
+        $("#peopleInput").css("opacity","0.8")
       }
     })
     $(".babyMinus").click(function(){
       if(babyNumber != 0){
         babyNumber--
+        console.log("嬰幼兒數量：" + babyNumber)
         $(".babyNum").text(babyNumber)
         if(adultNumber + babyNumber != 0){
-          $(".peopleInput").css("opacity","1")
-          $(".peopleInput").text(adultNumber + childrenNumber + "位")
+          $("#peopleInput").css("opacity","1")
+          $("#peopleInput").val(adultNumber + childrenNumber + "位")
           if(babyNumber != 0){
-            $(".peopleInput").append(", " + babyNumber + "名嬰幼兒")
+            $("#peopleInput").val(adultNumber + childrenNumber + "位" + ", " + babyNumber + "名嬰幼兒")
           }
         }else{
-          $(".peopleInput").text("新增人數")
-          $(".peopleInput").css("opacity","0.8")
+          $("#peopleInput").val("")
+          $("#peopleInput").css("opacity","0.8")
         }
         if(babyNumber == 0){
           $(".babyMinus").addClass("inactiveBtn")
@@ -252,11 +302,15 @@ export default {
         minDate: "0d",
       })
       .change(function(){
+        fromDate = $("#from").val()
+        console.log("入住日期：" + fromDate)
+        var tempMinDate = new Date($('#from').val())
+        tempMinDate.setDate(tempMinDate.getDate() + 1)
         $("#to").datepicker('destroy')
         $("#to").datepicker({
           changeMonth: false,
           numberOfMonths: 1,
-          minDate: new Date($('#from').val())
+          minDate: tempMinDate
         })
       })
     $("#to")
@@ -266,30 +320,52 @@ export default {
         minDate: "0d",
       })
       .change(function(){
+        toDate = $("#to").val()
+        console.log("退房日期：" + toDate)
+        var tempMaxDate = new Date($('#to').val())
+        tempMaxDate.setDate(tempMaxDate.getDate() - 1)
         $("#from").datepicker('destroy')
         $("#from").datepicker({
           changeMonth: false,
           numberOfMonths: 1,
           minDate: "0d",
-          maxDate: new Date($('#to').val())
+          maxDate: tempMaxDate
         })
       })
       
-    $(".searchSub").click(function(){
+    $("#from").focus(function(){
       if($("#from").val()){
-        $(".deleteFromInputBtn").css("display","block")
+        $("#deleteFromInputBtn").css("display","block")
       }
+    }).focusout(function(){
+      $("#deleteFromInputBtn").css("display","none")
+    })
+    $("#to").focus(function(){
       if($("#to").val()){
-        $(".deleteToInputBtn").css("display","block")
+        $("#deleteToInputBtn").css("display","block")
       }
+    }).focusout(function(){
+      $("#deleteToInputBtn").css("display","none")
     })
-    $(".deleteFromInputBtn").click(function(){
+    $("#locationInput").focus(function(){
+      if($("#locationInput").val()){
+        $("#deleteLocationInputBtn").css("display","block")
+      }
+    }).focusout(function(){
+      $("#deleteLocationInputBtn").css("display","none")
+    })
+
+    $("#deleteFromInputBtn").click(function(){
       $("#from").val("")
-      $(".deleteFromInputBtn").css("display","none")
+      $("#deleteFromInputBtn").css("display","none")
     })
-    $(".deleteToInputBtn").click(function(){
+    $("#deleteToInputBtn").click(function(){
       $("#to").val("")
-      $(".deleteToInputBtn").css("display","none")
+      $("#deleteToInputBtn").css("display","none")
+    })
+    $("#deleteLocationInputBtn").click(function(){
+      $("#locationInput").val("")
+      $("#deleteLocationInputBtn").css("display","none")
     })
   }
 }
@@ -318,24 +394,25 @@ $Blue: #0051CB
 label
   box-sizing: border-box
 
-.locLabel
+#locLabel
   width: 25%
-.checkInLabel, .checkOutLabel
+#checkInLabel, #checkOutLabel
   width: 25%
-.peopleLabel
-  width: 40%
+#peopleLabel
+  width: 30%
 
-.selectDateInput
+.selectInput
   display: flex
 .deleteInputBtn
   background-color: rgba(0,0,0,0.1)
   border-radius: 50px
   border: none
+  z-index: 1000
   &:focus
     outline: none
   &:hover
     background-color: white
-.deleteFromInputBtn, .deleteToInputBtn
+#deleteFromInputBtn, #deleteToInputBtn, #deleteLocationInputBtn
   display: none
 
 .searchSub
@@ -369,6 +446,7 @@ label
     color: black
 
 .ui-datepicker
+  display: none
   background-color: white
   opacity: 0.95
   transform: translate(-50px,20px)
@@ -413,12 +491,10 @@ label
     width: 200px
   
 .searchButton
-  position: absolute
-  right: 10px
   height: 100%
   display: flex
   align-items: center
-  transform: translate(-5px)
+  transform: translate(-10px)
   border: none
   outline: none
   .searchBtn
@@ -463,7 +539,7 @@ label
     margin: 0px 20px
 
 .peopleWritingBox
-  width: 100%
+  width: 120%
   background-color: white
   border-radius: 50px
   padding: 10px 30px 20px 30px

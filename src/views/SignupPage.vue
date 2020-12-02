@@ -67,6 +67,10 @@ html,body
   justify-content: center
   align-items: center
 
+input
+  border: none
+  outline: none
+
 .signupBox
   width: 800px
   height: 800px

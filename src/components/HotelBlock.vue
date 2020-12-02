@@ -1,6 +1,6 @@
 <template lang="pug">
 .HB
-  .hotelBlock(v-for="hotel in hotels")
+  .hotelBlock(v-for="hotel in hotels.slice(0,6)")
     a.blockLink
       .comment
         .leftComment

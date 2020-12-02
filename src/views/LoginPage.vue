@@ -37,13 +37,13 @@ export default {
     }
   },
   methods: {
-  login() {
-    this.$store.dispatch('mLogin/login', {
-      email: this.loginForm.email,
-      password: this.loginForm.password
-    })
-  }
-}
+    login() {
+      this.$store.dispatch('mLogin/login', {
+        email: this.loginForm.email,
+        password: this.loginForm.password
+      })
+    }
+  } 
 }
 </script>
 
@@ -60,6 +60,9 @@ html,body
   justify-content: center
   align-items: center
   
+input
+  border: none
+  outline: none
 
 .loginBox
   margin: 18% 0
