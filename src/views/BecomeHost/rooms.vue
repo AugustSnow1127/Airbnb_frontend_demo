@@ -25,6 +25,7 @@
     .bedInfoBlocks
       
     router-link.btn.btn-primary.btn-sm(to="becomehost/rooms" tag="button") 下一步
+    h1 測試
 </template>
 
 <script>
