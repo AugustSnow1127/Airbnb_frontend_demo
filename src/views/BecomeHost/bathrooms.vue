@@ -1,92 +1,62 @@
 <template lang="pug">
-.roomsPage
+.bathroomsPage
   nav.navbar.navbar-expand-lg.bg-light
     router-link.navbar-brand.nav-link(to="/", tag="a")
       img#brandLogo(src="https://fxdailyreport.com/wp-content/uploads/2018/10/Atlassian-Corporation-1200x1200.png")
     section 房源與房客
   .progress
-    .progressBar2
+    .progressBar3
   .form
-    h4 您的房源可以容納幾位房客？
-    label.question 有幾間臥室可以給房客使用？
+    label.question 有幾間衛浴？
+    p.hint 請將沒有淋浴間或浴缸的衛浴空間算為廁所。
     .hostInputBox
       span 臥室
       .calculate
-        button.calBtn.activeRoomMinusBtn(v-if="this.hostRooms.bedrooms.length" @click="roomMinus")
+        button.calBtn.activeBathRoomMinusBtn(v-if="this.hostRooms.bathroomNum" @click="bathroomMinus")
           span
             img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAAA/0lEQVR4nO3ZMUoDQRQG4PcGz+ENBFlIWsFD5C6ewMaDiHewsQwbsBFbEc+xk8bCwhCMgbch3wdTzT744Wem2IkAAAAAAAAAAAAAAAAAADhFWR1gn/V6fd1aWx0yO03T03K5fD12pmO6qA6wT2ZeRcTdgbPvEaGA/8jMt4h4+GXrMiJW39889t6/dszO2uyvoF02m81t7/05IqK1djMMw0t1pkO06gDnTgEnqM9hLRaLPo5jH8exD8NQnufH+hMnoJgCiimgmAKKKaCYAoopoJhfEcWcgGIKKKaAYgooNvsHmV2mafrIzPuIiMz8rM4DAAAAAAAAAAAAAAAAAHBetiItdLcYh9C1AAAAAElFTkSuQmCC")
-        button.calBtn.inactiveBtn.inactiveRoomMinusBtn(v-else)
+        button.calBtn.inactiveBtn.inactiveBathRoomMinusBtn(v-else)
           span
             img(src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAAA/0lEQVR4nO3ZMUoDQRQG4PcGz+ENBFlIWsFD5C6ewMaDiHewsQwbsBFbEc+xk8bCwhCMgbch3wdTzT744Wem2IkAAAAAAAAAAAAAAAAAADhFWR1gn/V6fd1aWx0yO03T03K5fD12pmO6qA6wT2ZeRcTdgbPvEaGA/8jMt4h4+GXrMiJW39889t6/dszO2uyvoF02m81t7/05IqK1djMMw0t1pkO06gDnTgEnqM9hLRaLPo5jH8exD8NQnufH+hMnoJgCiimgmAKKKaCYAoopoJhfEcWcgGIKKKaAYgooNvsHmV2mafrIzPuIiMz8rM4DAAAAAAAAAAAAAAAAAHBetiItdLcYh9C1AAAAAElFTkSuQmCC")
-        span.roomNum {{ this.hostRooms.bedrooms.length }}
-        button.calBtn(@click="roomPlus")
+        span.bathroomNum {{ this.hostRooms.bathroomNum }}
+        button.calBtn(@click="bathroomPlus")
           span
             img(src="https://img.icons8.com/android/24/000000/plus.png")
-    label.question 房型資訊
-    p.hint 提供每個房間的床型資訊，以利房客了解床位安排。
-    hr
-    BedInfo(v-bind:hostRooms="this.hostRooms")
     .backAndNext
-      router-link.btn(to="/becomehost", tag="button") &lt;&lt;返回
-      router-link.btn.btn-primary.btn-sm.nextBtn(to="rooms/bathrooms", tag="button") 下一步
-    
+      router-link.btn(to="/becomehost/rooms", tag="button") &lt;&lt;返回
+      router-link.btn.btn-primary.btn-sm.nextBtn(to="bathrooms/location", tag="button") 下一步
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import BedInfo from '@/components/BedInfo.vue'
-
 export default {
   methods: {
-    roomPlus() {
-      let tempRoomNo = this.hostRooms.bedrooms.length + 1
-      this.hostRooms.bedrooms.push({
-        roomNo: tempRoomNo,
-        oneFourBedNum: 0,
-        oneFiveBedNum: 0,
-        oneBedNum: 0,
-      })
+    bathroomPlus() {
+      this.hostRooms.bathroomNum++
     },
-    roomMinus() {
-      if (this.hostRooms.bedrooms.length > 0){
-        this.hostRooms.bedrooms.splice(-1,1)
+    bathroomMinus() {
+      if (this.hostRooms.bathroomNum > 0) {
+        this.hostRooms.bathroomNum--
       }
     }
-  },
-  mounted() {
-
   },
   data(){
     return {
       hostRooms: {
-        bedrooms: []
+        bathroomNum: 0,
       }
     }
   },
-  computed: {
-    ...mapState({
-      userProfile: state => state.mLogin.userProfile
-    })
-  },
-  components: {
-    BedInfo
-  }
 }
 </script>
 
 <style lang="sass">
 $Blue: #0051CB
 
-*
-  // border: 1px solid #000
-h4
-  margin-bottom: 50px
-
 .progress
   width: 100%
   height: 10px
-  .progressBar2
-    width: 5%
+  .progressBar3
+    width: 10%
     height: 100%
     background-color: $Blue
     border-radius: 0px 50px 50px 0px
@@ -145,7 +115,10 @@ h4
   font-size: 18px
   color: gray
 
+.backAndNext
+  margin-top: 50px
+
 .nextBtn
   position: absolute
-  right: 100px
+  right: 100px 
 </style>

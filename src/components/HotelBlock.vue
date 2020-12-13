@@ -19,16 +19,16 @@
           .hotelName {{hotel.name}}
           .region {{hotel.region}}
           .stars 
-            font-awesome-icon(v-if="hotel.commentScore>0" :icon=['fas',"star"])
-            font-awesome-icon(v-if="hotel.commentScore>2" :icon=['fas',"star"])
-            font-awesome-icon(v-if="hotel.commentScore>4" :icon=['fas',"star"])
-            font-awesome-icon(v-if="hotel.commentScore>6" :icon=['fas',"star"])
-            font-awesome-icon(v-if="hotel.commentScore>8" :icon=['fas',"star"])
-            font-awesome-icon(v-if="hotel.commentScore==0" :icon=['far',"star"])
-            font-awesome-icon(v-if="hotel.commentScore<2" :icon=['far',"star"])
-            font-awesome-icon(v-if="hotel.commentScore<4" :icon=['far',"star"])
-            font-awesome-icon(v-if="hotel.commentScore<6" :icon=['far',"star"])
-            font-awesome-icon(v-if="hotel.commentScore<8" :icon=['far',"star"])
+            font-awesome-icon(v-if="hotel.commentScore > 0" :icon=['fas',"star"])
+            font-awesome-icon(v-if="hotel.commentScore > 2" :icon=['fas',"star"])
+            font-awesome-icon(v-if="hotel.commentScore > 4" :icon=['fas',"star"])
+            font-awesome-icon(v-if="hotel.commentScore > 6" :icon=['fas',"star"])
+            font-awesome-icon(v-if="hotel.commentScore > 8" :icon=['fas',"star"])
+            font-awesome-icon(v-if="hotel.commentScore == 0" :icon=['far',"star"])
+            font-awesome-icon(v-if="hotel.commentScore < 2" :icon=['far',"star"])
+            font-awesome-icon(v-if="hotel.commentScore < 4" :icon=['far',"star"])
+            font-awesome-icon(v-if="hotel.commentScore < 6" :icon=['far',"star"])
+            font-awesome-icon(v-if="hotel.commentScore < 8" :icon=['far',"star"])
         .bottom
           .discount 
             span {{Math.floor((1-hotel.discount)*100)}}% off

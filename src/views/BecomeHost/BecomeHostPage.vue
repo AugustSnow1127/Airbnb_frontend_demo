@@ -6,7 +6,7 @@
     section 房源與房客
   .progress
     .progressBar
-  .becomeHostForm
+  .form
     h2 哈囉，{{ this.userProfile.lastname }}{{ this.userProfile.firstname }}！現在就開始發佈房源吧。
     .form-group
       label.question 您要發佈的房源類型？
@@ -137,7 +137,7 @@ $Blue: #0051CB
     border-radius: 0px 50px 50px 0px
     transition: 2s
 
-.becomeHostForm
+.form
   width: 800px
   padding: 50px 100px
   h2
