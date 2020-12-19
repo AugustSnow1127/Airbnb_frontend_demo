@@ -24,11 +24,20 @@
             img(src="https://img.icons8.com/android/24/000000/plus.png")
     .backAndNext
       router-link.btn(to="/becomehost/rooms", tag="button") &lt;&lt;返回
-      router-link.btn.btn-primary.btn-sm.nextBtn(to="bathrooms/location", tag="button") 下一步
+      router-link.btn.btn-primary.btn-sm.nextBtn(@click.native="setData" to="bathrooms/location", tag="button") 下一步
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
+  data(){
+    return {
+      hostRooms: {
+        bathroomNum: 0,
+      }
+    }
+  },
   methods: {
     bathroomPlus() {
       this.hostRooms.bathroomNum++
@@ -37,14 +46,21 @@ export default {
       if (this.hostRooms.bathroomNum > 0) {
         this.hostRooms.bathroomNum--
       }
-    }
+    },
+    setData() {
+      this.$store.dispatch('mHost/uploadHostRoom', {
+        userID: this.userProfile.id,
+        // roomID: roomID,
+        roomID: 'test',
+        bathroomNum: this.hostRooms.bathroomNum,
+      })
+    },
   },
-  data(){
-    return {
-      hostRooms: {
-        bathroomNum: 0,
-      }
-    }
+  computed: {
+    ...mapState({
+      userProfile: state => state.mLogin.userProfile,
+      tempHostRooms: state => state.mHost.hostRooms,
+    })
   },
 }
 </script>
@@ -56,7 +72,7 @@ $Blue: #0051CB
   width: 100%
   height: 10px
   .progressBar3
-    width: 10%
+    width: 18%
     height: 100%
     background-color: $Blue
     border-radius: 0px 50px 50px 0px

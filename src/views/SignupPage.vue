@@ -2,14 +2,14 @@
 form.signupBox(@submit.prevent)
   h6 註冊
   .firstNameBox
-    input(v-model.trim="signupForm.firstname" type="text" placeholder="名字" id="firstname" autocomplete="off")
+    input.signupInput(v-model.trim="signupForm.firstName" type="text" placeholder="名字" id="firstName" autocomplete="off")
   .lastNameBox
-    input(v-model.trim="signupForm.lastname" type="text" placeholder="姓氏" id="lastname" autocomplete="off")
+    input.signupInput(v-model.trim="signupForm.lastName" type="text" placeholder="姓氏" id="lastName" autocomplete="off")
   .ps 請確保和身分證上的姓名相同
   .emailBox
-    input(v-model.trim="signupForm.email" type="text" placeholder="電子郵件" id="email" autocomplete="off")
+    input.signupInput(v-model.trim="signupForm.email" type="text" placeholder="電子郵件" id="email" autocomplete="off")
   .passwordBox
-    input(v-model.trim="signupForm.password" type="password" placeholder="密碼" id="password")
+    input.signupInput(v-model.trim="signupForm.password" type="password" placeholder="密碼" id="password")
   .ps 我們會透過電子郵件傳送預訂確認給您
   button.signupBtn(@click="signup()") 註冊
   .otherSignupBox
@@ -36,8 +36,8 @@ export default {
       signupForm: {
         email: '',
         password: '',
-        lastname: "",
-        firstname: "",
+        lastName: "",
+        firstName: "",
       }
     }
   },
@@ -46,8 +46,8 @@ export default {
       this.$store.dispatch('mLogin/signup', {
         email: this.signupForm.email,
         password: this.signupForm.password,
-        lastname: this.signupForm.lastname,
-        firstname: this.signupForm.firstname,
+        lastName: this.signupForm.lastName,
+        firstName: this.signupForm.firstName,
       })
     }
   }
@@ -67,9 +67,10 @@ html,body
   justify-content: center
   align-items: center
 
-input
+.signupInput
   border: none
   outline: none
+  width: 500px
 
 .signupBox
   width: 800px
@@ -78,6 +79,7 @@ input
   border: 1px solid $gray
   padding: 50px 25px
   border-radius: 20px
+  margin-top: 50px
   h6
     text-align: center
     font-weight: 600

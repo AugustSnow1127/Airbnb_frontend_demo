@@ -10,39 +10,64 @@
     label.question 向房客描述您的空間
     p.hint 說明房源最棒的特色，強調高速 WiFi 或停車位等特殊設備與服務，並分享所在街區令人喜愛的原因。
     .questionBlock
-      textarea#desText.form-control(rows='3')
+      textarea#desText.form-control(v-model="hostRooms.roomIntro.intro" rows='3')
     .questionBlock
       label 你的空間（選填）
       p.hint 描述房源的樣子和感覺。 點出房源的特殊設計元素或區域，例如溫馨的閱讀區或戶外座椅。
-      textarea#desText.form-control(rows='3')
+      textarea#desText.form-control(v-model="hostRooms.roomIntro.style" rows='3')
     .questionBlock
       label 你與房客的互動（選填）
       p.hint 說明房客入住時，你會以什麼方式提供協助。 為了安全起見，預訂確認前請勿分享你的電話號碼或電子郵件。
-      textarea#desText.form-control(rows='3')
+      textarea#desText.form-control(v-model="hostRooms.roomIntro.service" rows='3')
     .questionBlock
       label 你的街區（選填）
       p.hint 分享你所在街區的特別之處，例如環境氛圍、鄰近的咖啡廳、獨特地標或步行可達的景點。
-      textarea#desText.form-control(rows='3')
+      textarea#desText.form-control(v-model="hostRooms.roomIntro.districtFeature" rows='3')
     .questionBlock
       label 周邊交通（選填）
       p.hint 新增城市或街區的交通資訊，例如周邊的大眾交通、自駕提示或不錯的散步路線。
-      textarea#desText.form-control(rows='3')
-
-    .questionBlock
-    .questionBlock
-    .questionBlock
+      textarea#desText.form-control(v-model="hostRooms.roomIntro.traffic" rows='3')
 
     hr
     .backAndNext
       router-link.btn(to="/becomehost/rooms/bathrooms/location/amenities/spaces/photos", tag="button") &lt;&lt;返回
-      router-link.btn.btn-primary.btn-sm.nextBtn(to="description/title", tag="button") 下一步
-
+      router-link.btn.btn-primary.btn-sm.nextBtn(@click.native="setData" to="description/title", tag="button") 下一步
 
 </template>
 
 <script>
-export default {
+import { mapState } from 'vuex'
 
+export default {
+  data(){
+    return {
+      hostRooms: {
+        roomIntro: {
+          intro: '',
+          style: '',
+          service: '',
+          districtFeature: '',
+          traffic: '',
+        }
+      }
+    }
+  },
+  methods: {
+    setData() {
+      this.$store.dispatch('mHost/uploadHostRoom', {
+        userID: this.userProfile.id,
+        // roomID: roomID,
+        roomID: 'test',
+        roomIntro: this.hostRooms.roomIntro
+      })
+    },
+  },
+  computed: {
+    ...mapState({
+      userProfile: state => state.mLogin.userProfile,
+      tempHostRooms: state => state.mHost.hostRooms,
+    })
+  },
 }
 </script>
 
@@ -54,7 +79,7 @@ $Blue: #0051CB
   width: 100%
   height: 10px
   .progressBar8
-    width: 35%
+    width: 48%
     height: 100%
     background-color: $Blue
     border-radius: 0px 50px 50px 0px

@@ -11,44 +11,76 @@
     p.hint 包含公共區域，但請不要納入不在房源範圍內的空間。
     .questionBlock
       .qb
-        input#defaultCheck1.form-check-input(type='checkbox' value='')
+        input#defaultCheck1.form-check-input(v-model="hostRooms.space.kitchen" type='checkbox' value='')
         .lb
           label.form-check-label 廚房
       .qb
-        input#defaultCheck1.form-check-input(type='checkbox' value='')
+        input#defaultCheck1.form-check-input(v-model="hostRooms.space.washingMachine" type='checkbox' value='')
         .lb
           label.form-check-label 洗衣機
       .qb
-        input#defaultCheck1.form-check-input(type='checkbox' value='')
+        input#defaultCheck1.form-check-input(v-model="hostRooms.space.dryer" type='checkbox' value='')
         .lb
           label.form-check-label 烘衣機
       .qb
-        input#defaultCheck1.form-check-input(type='checkbox' value='')
+        input#defaultCheck1.form-check-input(v-model="hostRooms.space.parkingSpace" type='checkbox' value='')
         .lb
           label.form-check-label 停車位
       .qb
-        input#defaultCheck1.form-check-input(type='checkbox' value='')
+        input#defaultCheck1.form-check-input(v-model="hostRooms.space.gym" type='checkbox' value='')
         .lb
           label.form-check-label 健身房
       .qb
-        input#defaultCheck1.form-check-input(type='checkbox' value='')
+        input#defaultCheck1.form-check-input(v-model="hostRooms.space.swimmingPool" type='checkbox' value='')
         .lb
           label.form-check-label 游泳池
       .qb
-        input#defaultCheck1.form-check-input(type='checkbox' value='')
+        input#defaultCheck1.form-check-input(v-model="hostRooms.space.jacuzzi" type='checkbox' value='')
         .lb
           label.form-check-label 按摩浴池
     hr
     .backAndNext
       router-link.btn(to="/becomehost/rooms/bathrooms/location/amenities", tag="button") &lt;&lt;返回
-      router-link.btn.btn-primary.btn-sm.nextBtn(to="spaces/photos", tag="button") 下一步
+      router-link.btn.btn-primary.btn-sm.nextBtn(@click.native="setData" to="spaces/photos", tag="button") 下一步
 
 
 </template>
 
 <script>
-export default {
+import { mapState } from 'vuex'
 
+export default {
+  data(){
+    return {
+      hostRooms: {
+        space: {
+          kitchen: false,
+          washingMachine: false,
+          dryer: false,
+          parkingSpace: false,
+          gym: false,
+          swimmingPool: false,
+          jacuzzi: false,
+        }
+      }
+    }
+  },
+  methods: {
+    setData() {
+      this.$store.dispatch('mHost/uploadHostRoom', {
+        userID: this.userProfile.id,
+        // roomID: roomID,
+        roomID: 'test',
+        space: this.hostRooms.space
+      })
+    },
+  },
+  computed: {
+    ...mapState({
+      userProfile: state => state.mLogin.userProfile,
+      tempHostRooms: state => state.mHost.hostRooms,
+    })
+  },
 }
 </script>
 
@@ -60,7 +92,7 @@ $Blue: #0051CB
   width: 100%
   height: 10px
   .progressBar6
-    width: 25%
+    width: 36%
     height: 100%
     background-color: $Blue
     border-radius: 0px 50px 50px 0px

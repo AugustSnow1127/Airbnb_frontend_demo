@@ -32,7 +32,7 @@ $Blue: #0051CB
   width: 100%
   height: 10px
   .progressBar7
-    width: 30%
+    width: 42%
     height: 100%
     background-color: $Blue
     border-radius: 0px 50px 50px 0px

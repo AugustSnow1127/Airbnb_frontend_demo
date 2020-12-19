@@ -65,26 +65,32 @@ export default {
   methods: {
     oneFourBedPlus(roomNo) {
       this.hostRooms.bedrooms[roomNo - 1].oneFourBedNum++
+      console.log(this.hostRooms.bedrooms)
     },
     oneFourBedMinus(roomNo) {
       if(this.hostRooms.bedrooms[roomNo - 1].oneFourBedNum > 0){
         this.hostRooms.bedrooms[roomNo - 1].oneFourBedNum--
+        console.log(this.hostRooms.bedrooms)
       }
     },
     oneFiveBedPlus(roomNo) {
       this.hostRooms.bedrooms[roomNo - 1].oneFiveBedNum++
+      console.log(this.hostRooms.bedrooms)
     },
     oneFiveBedMinus(roomNo) {
       if(this.hostRooms.bedrooms[roomNo - 1].oneFiveBedNum > 0){
         this.hostRooms.bedrooms[roomNo - 1].oneFiveBedNum--
+        console.log(this.hostRooms.bedrooms)
       }
     },
     oneBedPlus(roomNo) {
       this.hostRooms.bedrooms[roomNo - 1].oneBedNum++
+      console.log(this.hostRooms.bedrooms)
     },
     oneBedMinus(roomNo) {
       if(this.hostRooms.bedrooms[roomNo - 1].oneBedNum > 0){
         this.hostRooms.bedrooms[roomNo - 1].oneBedNum--
+        console.log(this.hostRooms.bedrooms)
       }
     },
   },

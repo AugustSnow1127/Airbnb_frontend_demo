@@ -15,37 +15,68 @@
       span 使用目前位置
     .questionBlock
       label.smallQuestion 國家／地區
-      select.form-control.form-control-sm
+      select.form-control.form-control-sm(v-model="hostRooms.region.country")
         option 台灣地區
     .questionBlock
       label.smallQuestion 街道
-      input#formGroupExampleInput.form-control(type='text' placeholder='房屋名稱／號碼 + 街／路')
+      input#formGroupExampleInput.form-control(v-model="hostRooms.region.street" type='text' placeholder='房屋名稱／號碼 + 街／路')
     .questionBlock
       label.smallQuestion 公寓、套房門牌號碼（選填）
-      input#formGroupExampleInput.form-control(type='text' placeholder='公寓、套房、大廈號碼')
+      input#formGroupExampleInput.form-control(v-model="hostRooms.region.houseNumber" type='text' placeholder='公寓、套房、大廈號碼')
     .row
       .col
         label.smallQuestion 城市
-        input.form-control(type='text' placeholder='城市(例：台北市)')
+        input.form-control(v-model="hostRooms.region.city" type='text' placeholder='城市(例：台北市)')
       .col
         label.smallQuestion 地區
-        input.form-control(type='text' placeholder='地區(例：信義區)')
+        input.form-control(v-model="hostRooms.region.district" type='text' placeholder='地區(例：信義區)')
     .row
       .col
         label.smallQuestion 郵遞區號
-        input.form-control(type='text' placeholder='郵遞區號')
+        input.form-control(v-model="hostRooms.region.postalCode" type='text' placeholder='郵遞區號')
       .col
     hr
     .backAndNext
       router-link.btn(to="/becomehost/rooms/bathrooms", tag="button") &lt;&lt;返回
-      router-link.btn.btn-primary.btn-sm.nextBtn(to="location/amenities", tag="button") 下一步
+      router-link.btn.btn-primary.btn-sm.nextBtn(@click.native="setData" to="location/amenities", tag="button") 下一步
 
 
 </template>
 
 <script>
-export default {
+import { mapState } from 'vuex'
 
+export default {
+  data(){
+    return {
+      hostRooms: {
+        region: {
+          country: '',
+          street: '',
+          houseNumber: '',
+          city: '',
+          district: '',
+          postalCode: '',
+        },
+      }
+    }
+  },
+  methods: {
+    setData() {
+      this.$store.dispatch('mHost/uploadHostRoom', {
+        userID: this.userProfile.id,
+        // roomID: roomID,
+        roomID: 'test',
+        region: this.hostRooms.region
+      })
+    },
+  },
+  computed: {
+    ...mapState({
+      userProfile: state => state.mLogin.userProfile,
+      tempHostRooms: state => state.mHost.hostRooms,
+    })
+  },
 }
 </script>
 
@@ -57,7 +88,7 @@ $Blue: #0051CB
   width: 100%
   height: 10px
   .progressBar4
-    width: 15%
+    width: 24%
     height: 100%
     background-color: $Blue
     border-radius: 0px 50px 50px 0px

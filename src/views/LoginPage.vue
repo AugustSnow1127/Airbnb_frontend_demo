@@ -2,9 +2,9 @@
 form.loginBox(@submit.prevent)
   h6 登入
   .emailBox
-    input(v-model.trim="loginForm.email" type="text" placeholder="電子郵件" id="email" autocomplete="off")
+    input.loginInput(v-model.trim="loginForm.email" type="text" placeholder="電子郵件" id="email" autocomplete="off")
   .passwordBox
-    input(v-model.trim="loginForm.password" type="password" placeholder="密碼" id="password")
+    input.loginInput(v-model.trim="loginForm.password" type="password" placeholder="密碼" id="password")
   button.loginBtn(@click="login()") 登入
   .otherLoginBox
     .otherLoginBtn
@@ -60,9 +60,10 @@ html,body
   justify-content: center
   align-items: center
   
-input
+.loginInput
   border: none
   outline: none
+  width: 500px
 
 .loginBox
   margin: 18% 0

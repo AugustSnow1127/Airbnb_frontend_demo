@@ -28,7 +28,7 @@
     BedInfo(v-bind:hostRooms="this.hostRooms")
     .backAndNext
       router-link.btn(to="/becomehost", tag="button") &lt;&lt;返回
-      router-link.btn.btn-primary.btn-sm.nextBtn(to="rooms/bathrooms", tag="button") 下一步
+      router-link.btn.btn-primary.btn-sm.nextBtn(@click.native="setData" to="rooms/bathrooms", tag="button") 下一步
     
 </template>
 
@@ -37,6 +37,13 @@ import { mapState } from 'vuex'
 import BedInfo from '@/components/BedInfo.vue'
 
 export default {
+  data(){
+    return {
+      hostRooms: {
+        bedrooms: []
+      }
+    }
+  },
   methods: {
     roomPlus() {
       let tempRoomNo = this.hostRooms.bedrooms.length + 1
@@ -46,26 +53,27 @@ export default {
         oneFiveBedNum: 0,
         oneBedNum: 0,
       })
+      console.log(this.hostRooms.bedrooms)
     },
     roomMinus() {
       if (this.hostRooms.bedrooms.length > 0){
         this.hostRooms.bedrooms.splice(-1,1)
+        console.log(this.hostRooms.bedrooms)
       }
-    }
-  },
-  mounted() {
-
-  },
-  data(){
-    return {
-      hostRooms: {
-        bedrooms: []
-      }
-    }
+    },
+    setData() {
+      this.$store.dispatch('mHost/uploadHostRoom', {
+        userID: this.userProfile.id,
+        // roomID: roomID,
+        roomID: 'test',
+        bedrooms: this.hostRooms.bedrooms,
+      })
+    },
   },
   computed: {
     ...mapState({
-      userProfile: state => state.mLogin.userProfile
+      userProfile: state => state.mLogin.userProfile,
+      tempHostRooms: state => state.mHost.hostRooms,
     })
   },
   components: {
@@ -86,7 +94,7 @@ h4
   width: 100%
   height: 10px
   .progressBar2
-    width: 5%
+    width: 12%
     height: 100%
     background-color: $Blue
     border-radius: 0px 50px 50px 0px
@@ -148,4 +156,7 @@ h4
 .nextBtn
   position: absolute
   right: 100px
+
+.backAndNext
+  margin-top: 50px
 </style>

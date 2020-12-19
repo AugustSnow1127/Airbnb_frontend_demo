@@ -20,7 +20,7 @@ nav.navbar.navbar-expand-lg.bg-light
       li.nav-item(v-if="!showNav")
         router-link.nav-link.navBtn(to="/login" tag="a") 登入
       li.nav-item(v-else)
-        .user 您好 {{ this.userProfile.lastname }}{{ this.userProfile.firstname }}
+        .user 您好 {{ this.userProfile.lastName }}{{ this.userProfile.firstName }}
         a.nav-link.navBtn(@click="logout()") 登出
         
 </template>

@@ -44,8 +44,9 @@ export default {
         alert('註冊成功!');
         // create user profile object in userCollections
         fb.usersCollection.doc(credential.user.uid).set({
-          firstname: form.firstname,
-          lastname: form.lastname
+          id: credential.user.uid,
+          firstName: form.firstName,
+          lastName: form.lastName
         }).then(()=> {
           // fetch user profile and set in state
           dispatch('fetchUserProfile', credential.user)
@@ -72,20 +73,17 @@ export default {
     async logout({ commit }) {
       await fb.auth.signOut()
     
-      // clear userProfile and redirect to /login
       commit('setUserProfile', {})
       router.push('/')
     },
     async fetchUserProfile({ commit }, user) {
-      // fetch user profile
       const userProfile = await fb.usersCollection.doc(user.uid).get()
-  
-      // set user profile in state
       commit('setUserProfile', userProfile.data())
-      
-      // change route to dashboard
       if (router.currentRoute.path === '/login') {
         router.push('/')
+      }
+      if (router.currentRoute.path === '/signup') {
+        router.push('/login')
       }
     },
   }
