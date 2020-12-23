@@ -9,6 +9,7 @@
   .form
     label.question 透過相片讓房源鮮活起來
     p.hint 使用手機或相機拍攝相片。 上傳至少一張相片好發布房源，之後你可以隨時增加相片數量或加以編輯。
+    input#fileButton(@click="upload" type="file" value="upload")
 
     hr
     .backAndNext
@@ -19,8 +20,28 @@
 </template>
 
 <script>
-export default {
+import { mapState } from 'vuex'
+import * as fb from '@/firebase'
 
+export default {
+  methods: {
+    upload() {
+      var fileButton = document.getElementById('fileButton')
+      fileButton.addEventListener('change', function(e) {
+      // Get file
+        var file = e.target.files[0]
+        // Create a storage ref
+        var storageRef = fb.storage().ref(this.userProfile.id + "/" + file.name)
+        // Upload file
+        storageRef.put(file)
+      })
+    }
+  },
+  computed: {
+    ...mapState({
+      userProfile: state => state.mLogin.userProfile,
+    })
+  },
 }
 </script>
 

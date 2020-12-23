@@ -58,7 +58,6 @@ export default {
   computed: {
     ...mapState({
       userProfile: state => state.mLogin.userProfile,
-      tempHostRooms: state => state.mHost.hostRooms,
     })
   },
   methods: {

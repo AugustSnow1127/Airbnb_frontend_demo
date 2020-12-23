@@ -9,6 +9,7 @@ import "firebase/analytics";
 // Add the Firebase products that you want to use
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 
 // firebase init - add your own config here
 const firebaseConfig = {
@@ -26,6 +27,7 @@ firebase.initializeApp(firebaseConfig)
 // utils
 const db = firebase.firestore()
 const auth = firebase.auth()
+const storage = firebase.storage()
 
 // collection references
 const usersCollection = db.collection('users')
@@ -35,4 +37,5 @@ export {
   db,
   auth,
   usersCollection,
+  storage,
 }
